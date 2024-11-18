@@ -1,0 +1,14 @@
+Comportamiento
+
+Fase 0 (Titilar Rojo y Blanco):
+
+Mientras esté en fase 0, las luces Roja y Blanca titilan alternadamente.
+Podes cambiar de fase en cualquier momento pulsando el botón.
+
+Fase 1 (Rampa de color con Bloqueo de Botón):
+
+La rampa de color se enciende durante 30 segundos. Durante este tiempo, el botón está bloqueado y no se puede cambiar de fase.
+Después de 30 segundos, el botón se habilita y cambia a la fase 2.
+
+Fase 2 (Rojo Fijo):
+Las luces están en Rojo de manera fija hasta que presionas el botón para volver a la fase 0.
