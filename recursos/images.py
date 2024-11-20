@@ -71,17 +71,19 @@ def load_horizontal_image(root, url, top=True):
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
 
-    footer_height = int(root.winfo_screenheight() * 0.05)
-    altura = int((root.winfo_screenheight() - footer_height) / 4)
+    footer_height = int(root.winfo_screenheight() * 0.1)
+    altura_canvas = int((root.winfo_screenheight() - footer_height) / 2)
+    altura = (root.winfo_screenheight() - altura_canvas ) //2
+    altura = root.winfo_screenheight()//4
 
     #height=int(screen_height/3)
     height=altura
     width=int(screen_height/3)
     cant_imagenes=int(screen_width/width)
-    print("cant_imagenes:",cant_imagenes)
+    #print("cant_imagenes:",cant_imagenes)
 
     left_image = Image.open(url).convert("RGBA")
-    left_image = left_image.resize((width, height), Image.LANCZOS)
+    left_image = left_image.resize((width, altura), Image.LANCZOS)
     left_image=ImageTk.PhotoImage(left_image)
     img_labels = []
 

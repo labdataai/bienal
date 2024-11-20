@@ -45,14 +45,12 @@ class ventana_texto(vp.ventana_perfil):
 
 
     def cargar_centro(self):
-        footer_height = int(self.root.winfo_screenheight() * 0.1)
-        #altura=int( (self.root.winfo_screenheight()-footer_height)/self.proporcion_centro)
-        altura = int(self.root.winfo_screenheight() / 2)
+        footer_height = int(self.root.winfo_screenheight() * 0.05)
+        altura=int( (self.root.winfo_screenheight()-footer_height)/self.proporcion_centro)
         ancho=int(self.root.winfo_screenwidth())
         self.canvas = tk.Canvas(self.root, width=ancho, height=altura, bg="white")
 
-        #posicion_y=int((self.root.winfo_screenheight()-footer_height-altura)/2)
-        posicion_y = int(self.root.winfo_screenheight() / 4)
+        posicion_y=int((self.root.winfo_screenheight()-footer_height-altura)/2)
         self.canvas.place(y=posicion_y)
 
         texto=self.controlador_usuarios.seleccionar_texto_perfil_random()

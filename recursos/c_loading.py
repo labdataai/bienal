@@ -23,16 +23,20 @@ class loading():
         self.crear_circulos()
         self.actualizar_colores()
         self.mostrar_texto()
+
     def crear_circulos(self):
 
-        footer_height = int(self.root.winfo_screenheight() * 0.05)
-        canvas_altura = (self.root.winfo_screenheight() - footer_height) // self.proporcion_centro
-        canvas_posicion_y = int((self.root.winfo_screenheight() - footer_height - canvas_altura) / 2)
+        #footer_height = int(self.root.winfo_screenheight() * 0.05)
+        #canvas_altura = (self.root.winfo_screenheight() - footer_height) // self.proporcion_centro
+        canvas_altura = int(self.root.winfo_screenheight() / 2)
+        canvas_posicion_y = int(self.root.winfo_screenheight() / 4)
+        #canvas_posicion_y = int((self.root.winfo_screenheight() - footer_height - canvas_altura) / 2)
 
-        center_y=canvas_posicion_y#+canvas_altura//2
+        #center_y=canvas_posicion_y+(canvas_altura//2)
+        center_y = (canvas_altura // 2)
         #center_y = self.window_height // 2
         espaciado = (self.window_width - 2 * self.radio) // (self.num_circulos + 1)
-        positions_x = [espaciado * (i + 1) + self.radio for i in range(self.num_circulos)]
+        positions_x = [ espaciado * (i + 1) + self.radio for i in range(self.num_circulos)]
 
         for i in range(self.num_circulos):
             # Color inicial negro
@@ -56,13 +60,17 @@ class loading():
         self.root.after(300, self.actualizar_colores)
 
     def mostrar_texto(self):
-        footer_height = int(self.root.winfo_screenheight() * 0.05)
-        canvas_altura = (self.root.winfo_screenheight() - footer_height) // self.proporcion_centro
-        canvas_posicion_y = int((self.root.winfo_screenheight() - footer_height - canvas_altura) / 2)
-        center_y=canvas_posicion_y#+canvas_altura//2
+        #footer_height = int(self.root.winfo_screenheight() * 0.05)
+        #canvas_altura = (self.root.winfo_screenheight() - footer_height) // self.proporcion_centro
+        #canvas_altura =  self.root.winfo_screenheight() // 3
+        #canvas_posicion_y = int((self.root.winfo_screenheight() - canvas_altura) )
+        #center_y=canvas_posicion_y#+canvas_altura//2
 
+        canvas_altura = int(self.root.winfo_screenheight() / 2)
+        #y_texto=canvas_altura//2+self.radio*2
+        y_texto=int(canvas_altura*4/5) #+ self.radio
         #center_y = self.window_height // 2
-        texto = self.canvas.create_text(self.window_width // 2, center_y + 150, text="PROCESANDO...",
+        texto = self.canvas.create_text(self.window_width // 2, y_texto , text="PROCESANDO...",
                                    font=("Helvetica", 40, "bold"), fill="#333333")
 
 

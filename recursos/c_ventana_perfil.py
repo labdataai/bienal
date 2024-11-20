@@ -49,12 +49,14 @@ class ventana_perfil():
         # Create style used by default for all Frames
         s.configure('Frame1.TFrame', background='yellow')
 
-        self.header_frame = ttk.Frame(self.root, style='Frame1.TFrame')
+        #self.header_frame = ttk.Frame(self.root, style='Frame1.TFrame')
+        self.header_frame = ttk.Frame(self.root)
         self.header_frame.pack(pady=10)
 
         self.user_info_frame = ttk.Frame(self.header_frame)
         self.user_info_frame.grid(row=0, column=1, padx=10)
-        self.username_label = ttk.Label(self.user_info_frame, text="", font=("Arial", 20, "bold"), background="red", width="10")
+        #self.username_label = ttk.Label(self.user_info_frame, text="", font=("Arial", 20, "bold"), background="red", width="10")
+        self.username_label = ttk.Label(self.user_info_frame, text="", font=("Arial", 20, "bold"), width="10")
 
         self.main_frame = ttk.Frame(self.root)
         self.gallery_frame = ttk.Frame(self.root) #Antes estaba self.main_frame
@@ -63,8 +65,8 @@ class ventana_perfil():
         self.main_frame.pack()
 
         #self.cargar_secciones_datos_usuario()
-        edit_button = ttk.Button(self.user_info_frame, text="Editar Perfil", style="Edit.TButton")
-        edit_button.pack(pady=5)
+        #edit_button = ttk.Button(self.user_info_frame, text="Editar Perfil", style="Edit.TButton")
+        #edit_button.pack(pady=5)
 
         #self.mostrar_ventana()
         self.cargar_pie()
@@ -94,7 +96,8 @@ class ventana_perfil():
 
         size_imagen_perfil=(window_height//7,window_height//7)
         profile_image = im.load_circular_image(imagen_perfil,size_imagen_perfil)
-        profile_image_label = ttk.Label(self.header_frame, image=profile_image ,background="red")
+        #profile_image_label = ttk.Label(self.header_frame, image=profile_image ,background="red")
+        profile_image_label = ttk.Label(self.header_frame, image=profile_image)
         profile_image_label.image = profile_image
         profile_image_label.grid(row=0, column=0, padx=10)
 
@@ -118,7 +121,8 @@ class ventana_perfil():
         # objetos_graficos.append(profile_image_label)
 
         # Biografía
-        bio_label = ttk.Label(self.header_frame, text=self.usuario_random["descripcion"] ,background="red")
+        #bio_label = ttk.Label(self.header_frame, text=self.usuario_random["descripcion"] ,background="red")
+        bio_label = ttk.Label(self.header_frame, text=self.usuario_random["descripcion"])
         bio_label.grid(row=2, column=0, columnspan=2, pady=10)  #Estaba con pady=5
 
         self.estadisticas_perfil()
@@ -134,7 +138,8 @@ class ventana_perfil():
         cant_seguidores = self.usuario_random["seguidores"]
         cant_publicaciones = self.usuario_random["seguidos"]
         linea=cant_publicaciones+" publicaciones | "+cant_seguidores+" seguidores | "+cant_publicaciones+" siguiendo"
-        stats_label = ttk.Label(stats_frame, text=linea , background="green")
+        #stats_label = ttk.Label(stats_frame, text=linea , background="green")
+        stats_label = ttk.Label(stats_frame, text=linea)
         stats_label.pack()
 
 
@@ -146,14 +151,28 @@ class ventana_perfil():
 
     def cargar_pie(self):
         style = ttk.Style()
-        footer_height = int(self.root.winfo_screenheight() * 0.05)  # 5% de la altura de la pantalla
+        footer_height = int(self.root.winfo_screenheight() * 0.1)  # 5% de la altura de la pantalla
         footer_width = int(self.root.winfo_screenwidth())  # 5% de la altura de la pantalla
         style.configure("Footer.TFrame", background="#333333")  # Gris oscuro
         footer_frame = ttk.Frame(self.root, height=footer_height, width=footer_width, relief="solid", style="Footer.TFrame")
         footer_frame.pack(side=tk.BOTTOM)
-        footer_label = ttk.Label(footer_frame, text="<<<< Presione el botón ❤ >>>>", font=("Arial", 20, "bold"),
+
+        self.footer_label = ttk.Label(footer_frame, text="<<<< Presione el botón ❤ >>>>", font=("Arial", 30, "bold"),
                                  foreground="red", background="#333333")
-        footer_label.place(relx=0.5, rely=0.5, anchor="center")
+        self.footer_label.place(relx=0.5, rely=0.5, anchor="center")
+
+        self.root.after(10,self.actualizar_pie)
+
+
+    def actualizar_pie(self):
+        texto="<<<< Presione el botón ❤ >>>>"
+        print("texto boton",self.footer_label.cget("text"))
+        if self.footer_label.cget("text") == " ":
+            self.footer_label.config(text=texto)
+        else:
+            self.footer_label.config(text=" ")
+
+        self.root.after(500, self.actualizar_pie)
 
 
     def set_actualizar_perfil(self,estado):

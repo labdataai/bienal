@@ -2,6 +2,7 @@ import recursos.c_usuario_controlador as cu
 import recursos.c_ventana_perfil as vp
 import recursos.c_ventana_loading as vl
 import recursos.c_ventana_texto as vt
+import serial
 import time
 
 class c_ventanas_controllador():
@@ -11,6 +12,7 @@ class c_ventanas_controllador():
     ventana_loading=None
     ventana_texto=None
     estado_ventana_loading=False
+    serial_port=None
 
     milisegundos_ventana_loading=5000
 
@@ -27,6 +29,8 @@ class c_ventanas_controllador():
 
         self.ventana_texto = vt.ventana_texto(self.control_usuarios)
         self.ventana_texto.set_enter_key(self.tecla_enter_ventana_texto)
+
+        #self.serial_port = serial.Serial(port="/dev/serial1", baudrate=115200, timeout=.1)
 
     def tecla_enter_ventana_perfil(self,event):
         print("Tecla enter")

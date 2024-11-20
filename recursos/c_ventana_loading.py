@@ -22,19 +22,20 @@ class ventana_loading():
         # Crear un canvas para dibujar los círculos
 
         footer_height = int(self.root.winfo_screenheight() * 0.05)
-        altura=int( (self.root.winfo_screenheight()-footer_height)/self.proporcion_centro)
+        #altura=int( (self.root.winfo_screenheight()-footer_height)/self.proporcion_centro)
+        altura = int(self.root.winfo_screenheight()/2 )
         ancho=int(self.root.winfo_screenwidth())
 
-        self.canvas = tk.Canvas(self.root, width=ancho, height=altura, bg="white")
+        self.canvas = tk.Canvas(self.root, width=ancho, height=altura )
 
         #self.canvas.pack()
 
-        ruta_imagen="D:/github/prueba_ventana/imagenes/verticales/conections-between-brain-and-machine.gif"
+        ruta_imagen="./imagenes/verticales/conections-between-brain-and-machine.gif"
         self.cargar_imagen_superior(ruta_imagen)
         self.cargando=cl.loading(self.root,self.canvas)
         self.cargar_imagen_inferior(ruta_imagen)
 
-        posicion_y=int( (self.root.winfo_screenheight()-footer_height-altura) /2)
+        posicion_y=int( self.root.winfo_screenheight() /4)
         self.canvas.place(y=posicion_y)
 
         #self.mostrar_ventana()
