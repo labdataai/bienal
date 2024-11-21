@@ -1,8 +1,11 @@
+import time
 import tkinter as tk
 from tkinter import ttk
 import recursos.c_loading as cl
 import recursos.images as im
 import recursos.c_galeria as gal
+import serial
+import time
 
 class ventana_perfil():
 
@@ -17,13 +20,15 @@ class ventana_perfil():
     main_frame=None
     gallery_frame=None
     images_lables=[]
+    controlador_ventanas=None
 
     actualizar_perfil=True
+    ser=None
 
     def cargar_root(self):
         self.root = tk.Tk()
 
-    def __init__(self,controlador_usuarios):
+    def __init__(self,controlador_usuarios,controlador_ventanas):
 
         self.controlador_usuarios = controlador_usuarios
         self.actualizar_perfil = True
@@ -31,6 +36,7 @@ class ventana_perfil():
         self.cargar_root()
         self.root.title("Ventana principal")
         self.root.attributes("-fullscreen", True)
+        self.controlador_ventanas=controlador_ventanas
 
         #self.ocultar_ventana()
 
@@ -71,16 +77,33 @@ class ventana_perfil():
         #self.mostrar_ventana()
         self.cargar_pie()
 
+    def esperar_boton(self):
+        data=""
+        #print("esperar_boton ventanta perfil")
+        if self.actualizar_perfil==True:
+            ser=self.controlador_ventanas.serial_port
+            if ser.in_waiting > 0:
+                #while ser.in_waiting > 0:
+                #while len(data) < 18:
+                data = data + ser.read(ser.in_waiting).decode(encoding='UTF-8').strip()
+                while data[len(data)-1].isdigit() == False:
+                    data = data + ser.read(ser.in_waiting).decode(encoding='UTF-8').strip()
+                    time.sleep(0.1)
+                print("data serie ventana perfil:", data)
+                self.root.after(200, self.esperar_boton)  # Repetir cada x segundo
+                #if del nro exacto
+                self.controlador_ventanas.tecla_enter_ventana_perfil()
+
+        self.root.after(200, self.esperar_boton)  # Repetir cada x segundo
+
+
     def start(self):
         self.cargar_secciones_datos_usuario()
+        self.esperar_boton()
         self.root.mainloop()
 
-    def set_enter_key(self, funcion):
-        #self.root.bind('<Return>', funcion, root)
-        self.root.bind('<Return>', funcion)
 
     def cargar_secciones_datos_usuario(self):
-
         if self.actualizar_perfil:
             self.cargar_seccion_perfil_usuario()
             self.cargar_centro()
@@ -166,7 +189,7 @@ class ventana_perfil():
 
     def actualizar_pie(self):
         texto="<<<< Presione el botón ❤ >>>>"
-        print("texto boton",self.footer_label.cget("text"))
+        #print("texto boton",self.footer_label.cget("text"))
         if self.footer_label.cget("text") == " ":
             self.footer_label.config(text=texto)
         else:
@@ -195,8 +218,8 @@ class ventana_perfil():
         window_width = self.root.winfo_screenwidth()  # Obtener el ancho de la pantalla
         window_height = self.root.winfo_screenheight()  # Obtener la altura de la pantalla
 
-        print("window_width",window_width)
-        print("window_height", window_height)
+        #print("window_width",window_width)
+        #print("window_height", window_height)
 
         if self.actualizar_perfil:
             proporcion_imagen=0.185

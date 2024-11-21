@@ -45,7 +45,7 @@ class usuario_controlador():
             usuario["archivos_galeria"]=nombres_archivos
             usuario["textos"] = self.cargar_textos_perfil(nombre)
 
-            print(usuario)
+            #print(usuario)
 
     def cargar_textos_perfil(self,usuario):
         archivo_texto="textos_perfil.csv"
@@ -75,8 +75,6 @@ class usuario_controlador():
         usuario=self.usuarios[indice]
         self.usuario_elegido=usuario
 
-        #print(indice)
-        #print(usuario)
         return usuario
 
     def seleccionar_texto_perfil_random(self):

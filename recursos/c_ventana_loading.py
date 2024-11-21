@@ -1,6 +1,7 @@
 import tkinter as tk
 import recursos.c_loading as cl
 import recursos.images as im
+import time
 
 class ventana_loading():
 
@@ -8,8 +9,9 @@ class ventana_loading():
     canvas=None
     cargando=None
     proporcion_centro = 2
+    controlador_ventanas=None
 
-    def __init__(self):
+    def __init__(self,controlador_ventanas):
         #self.root = tk.Tk()
         self.root = tk.Toplevel()
         self.root.attributes("-fullscreen", True)
@@ -19,6 +21,7 @@ class ventana_loading():
         window_height = self.root.winfo_screenheight()  # Obtener la altura de la pantalla
         self.root.geometry(f"{window_width}x{window_height}+0+0")  # Establecer tamaño de la ventana
         self.root.overrideredirect(False)  # Eliminar la barra de título y bordes (pantalla completa)
+        self.controlador_ventanas=controlador_ventanas
         # Crear un canvas para dibujar los círculos
 
         footer_height = int(self.root.winfo_screenheight() * 0.05)
@@ -56,11 +59,31 @@ class ventana_loading():
     def ocultar_ventana(self):
         self.root.withdraw()  # Oculta la ventana
 
-    def mostrar_ventana_tiempo(self, mili_segs):
-        self.root.deiconify()  # Mostrar la ventana
-        self.root.after(mili_segs, self.stop)
-        self.start()
 
+    def esperar_boton(self):
+        data=""
+
+        ser=self.controlador_ventanas.serial_port
+        #print("esperar_boton ventanta loading")
+        if ser.in_waiting > 0:
+            #while ser.in_waiting>0:
+            #while len(data) < 18:
+            data = data + ser.read(ser.in_waiting).decode(encoding='UTF-8').strip()
+            while data[len(data)-1].isdigit() == False:
+                data = data + ser.read(ser.in_waiting).decode(encoding='UTF-8').strip()
+                time.sleep(0.1)
+            print("data ventana loading:", data)
+            self.stop()
+            return
+
+        self.root.after(50, self.esperar_boton)
+        #ser.close()
+
+
+    def mostrar_ventana(self):
+        self.root.deiconify()  # Mostrar la ventana
+        self.root.after(10, self.esperar_boton)
+        self.start()
 
 
 #    def ocultar_ventana(self):

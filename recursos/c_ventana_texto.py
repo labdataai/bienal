@@ -3,6 +3,7 @@ from tkinter import ttk
 import recursos.c_loading as cl
 import recursos.images as im
 import recursos.c_ventana_perfil as vp
+import time
 
 class ventana_texto(vp.ventana_perfil):
 
@@ -11,8 +12,6 @@ class ventana_texto(vp.ventana_perfil):
         self.ocultar_ventana()
 
     def cargar_secciones_datos_usuario(self):
-
-        print("Se ejecuto esta")
         self.cargar_seccion_perfil_usuario()
         self.cargar_centro()
 
@@ -61,6 +60,8 @@ class ventana_texto(vp.ventana_perfil):
 
     def start(self):
         self.cargar_secciones_datos_usuario()
+        #self.esperar_boton()
+        self.root.after(500, self.esperar_boton)
         self.root.mainloop()
 
     def stop(self):
@@ -73,3 +74,21 @@ class ventana_texto(vp.ventana_perfil):
     def mostrar_ventana(self):
         self.root.deiconify()  # Mostrar la ventana
         #self.start()
+
+    def esperar_boton(self):
+        data=""
+        ser=self.controlador_ventanas.serial_port
+        #print("esperar_boton ventanta texto")
+        if ser.in_waiting > 0:
+            #while ser.in_waiting>0:
+            data = data + ser.read(ser.in_waiting).decode(encoding='UTF-8').strip()
+            while data[len(data)-1].isdigit()==False:
+                data = data + ser.read(ser.in_waiting).decode(encoding='UTF-8').strip()
+                #data = data + ser.readline().decode(encoding='UTF-8').strip()
+                time.sleep(0.1)
+
+            print("data serie ventana texto:", data)
+            self.controlador_ventanas.tecla_enter_ventana_texto()
+            return
+
+        self.root.after(1000, self.esperar_boton)  # Repetir cada x segundo

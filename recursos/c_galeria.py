@@ -39,7 +39,7 @@ class galeria_imagenes():
         #proporcion_imagen=0.3
         #image_size=(int(size_windows[1]*proporcion_imagen),int(size_windows[1]*proporcion_imagen))
 
-        print("image_size",image_size)
+        #print("image_size",image_size)
 
         i=0
         for index in ids_imagenes:
